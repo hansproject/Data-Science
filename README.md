@@ -1,5 +1,10 @@
 # Data-Science
-I downloaded a sample file  called officesupplies from superdatascience.com that contains customers of a bank coming from different countries and sorted based on gender. 
+
+This data science has 2 projects. 
+
+- The first and most consistent is about 2016 US  presidential. Is it possible to predict the result of election using previous ones?=
+
+- The second is a sample file I downloaded called officesupplies from superdatascience.com that contains customers of a bank coming from different countries and sorted based on gender. 
 My goal was to see if a male is more likely to live than a female customer.
 I used AB test to quickly if it is correct, then I used the chi squared square to confirm the importance of the gender. 
 I applied the chi square test with 5 percent significance level on the total number of records sorted based on the gender, isExited or stayed(a customer) on this website: http://www.socscistatistics.com/tests/chisquare/Default2.aspx
