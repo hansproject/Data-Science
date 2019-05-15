@@ -2,7 +2,7 @@
 
 This data science has 3 projects. 
 
-- The first and most consistent is about 2016 US  presidential. Is it possible to predict the result of election using previous ones?
+- The first and most consistent is about 2016 US  presidential. Is it possible to predict the result of election using previous ones? However this project is not complete but it will be soon
 
 - The second is a sample file I downloaded called officesupplies from superdatascience.com that contains customers of a bank coming from different countries and sorted based on gender. 
 My goal was to see if a male is more likely to live than a female customer.
