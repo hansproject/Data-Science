@@ -1,9 +1,8 @@
 # Data-Science
 
-This data science has 5 projects. 
-
-- The first and most consistent is about 2016 US  presidential. Is it possible to predict the result of election using previous ones? However this project is not complete but it will be soon
-- The second is a Google stock price predictive model. The model will try to predict the highest price for the next 20 days of the stock after training.
+This data science has several projects. 
+- The first is about predicting whether a customer of bank will exit it or not based Credit Score, Number of Products used and several other variables. This project use RandomForest regression to predict on a test dataset.
+- The second one is a Google stock price predictive model. The model will try to predict the highest price for the next 20 days of the stock after training.
 - The third is a sample file I downloaded called officesupplies from superdatascience.com that contains customers of a bank coming from different countries and sorted based on gender. 
 My goal was to see if a male is more likely to live than a female customer.
 I used AB test to quickly if it is correct, then I used the chi squared square to confirm the importance of the gender. 
