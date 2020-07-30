@@ -1,0 +1,132 @@
+---
+title: Financial Risk Modeling Project1
+author: 
+- Hans Peter Ndeffo
+- <h4 style="font-weight:bold; background-color:lightsteelblue">Professor - Jonathan Natov</h4>
+date: March 25, 2020
+output:
+  prettydoc::html_pretty:
+    newpage_html_class: page-break
+    theme: leonids
+    highlight: github
+    math: katex
+---
+```{css, echo = FALSE}
+// display the pagebreak only when printing the html page
+@media all {
+    .page-break { display: none; }
+}
+@media print {
+    .page-break { display: block; break-after: page; }
+}
+```
+
+<font size ="5"><div align="left">**Abstract**</div></font>
+
+In this project we aim at predicting whether a customer of a bank can leave or not using random forest with the following steps:
+
+- Import stock dataset. 
+
+- Display an overview of the bank dataset .
+
+- Compute the **standart deviation $\ S_{u}$** using closing prices  from 03/02/2020 - 03/13/2020
+
+- Since the closing prices are needed 10 days over 252 trading days from 03/13/2020, the standart deviation is therefore $\sigma\sqrt(10/252)$.
+
+- The 95 % confidence can be as a result computed as the following. Using Ito Lemma, we know $\ln(\frac{S_t}{S_0})$ belongs to 
+
+**[$(\mu - \frac{\sigma^2}{2})T$ - 1.96$\sigma\sqrt(\frac{10}{252})$,$(\mu - \frac{\sigma^2}{2})T$ + 1.96$\sigma\sqrt(\frac{10}{252})$]**,
+
+
+---
+
+<font size ="5"><div align="left">**Introduction**</div></font>
+
+---
+We live in an era where technology can more than ever, help us to compute and train complex model to predict stock prices. There are different techniques such as recurent neural network which focus on understading trends and behavior of stocks. However, the results you will obtain, depend on the stock(apple, microsoft), time(can be in seconds, days or months) and many other factors. In this analysis, we will focus our attention only to have a rough estimate of the closing prices using an interval of 10 days in the past and in the future.
+
+# Step 1:  Read Apple stock prices' file and load the required libraries
+
+```{r}
+# Load libraries
+# knitr is to display tables
+library(knitr)
+library(flextable)
+library(ggplot2)
+library(cowplot)
+library(randomForest)
+
+stock_dataset <-read.csv("C:/Users/ndeff/Downloads/Apple's Stock.csv",
+                   sep=",",stringsAsFactors = FALSE, header=T,na.strings=c(""))
+names(stock_dataset)<- c("Dates", "Closing Prices", "S(i+1)/S(i)", "Ui = ln(S(i+1)/S(i))")
+# Show a sample of the stock_dataset
+#print(kable(stock_dataset[1:6,]))
+table = flextable(stock_dataset[1:11,],col_keys = names(stock_dataset), 
+           cwidth = 2, cheight = 1, theme_fun = theme_tron_legacy)
+# Add color to text and the body of the table
+table <- color(table,color = "black", part = "body")
+table <- bg(table,bg = "white")
+table
+```
+
+# Step 2: Extract closing stock prices from 03/02/2020 - 03/13/2020
+
+```{r}
+Ui = stock_dataset[2:10,4]
+S0 = stock_dataset[1,2]
+```
+
+# Step 3: Compute the **standart deviation $\ S_{u}$** using closing prices  from 03/02/2020 - 03/13/2020
+
+Su is computed using the following formula $\ S_{u} = \sqrt(\frac{1}{n-1}\sum{u_{i}^2}-\frac{1}{(n)(n-1)}(\sum{u_{i}})^2)$
+```{r}
+Su = sqrt((sum(Ui^2)/(9))  - sum(Ui)^2/(72))
+Su
+```
+### Su = 0.06683422
+
+### The rate of return r is 6.25% = 0.0625
+```{r}
+r = 0.0625
+```
+The Volatility is
+```{r}
+volatility = Su*sqrt(252/10)
+volatility
+```
+
+# Step 4: Computing the 95% confidence interval to which $\ln(\frac{S_t}{S_0})$ belongs 
+The lower bound will be:
+lower_bound = $(r - \frac{\sigma^2}{2})\frac{10}{252} - 1.96\sigma\sqrt{\frac{10}{252}}$
+```{r}
+lower_bound <- (r-volatility^2/2)*10/252 - 1.96*volatility*sqrt(10/252)
+lower_bound
+```
+The upper bound will be:
+```{r}
+upper_bound <- (r-volatility^2/2)*10/252 + 1.96*volatility*sqrt(10/252)
+upper_bound
+```
+# Step 5: Performing the algeric manipulations to get the 95% confidence interval for $ln(S_t)$
+```{r}
+new_lower_bound <- log(S0) + lower_bound
+new_lower_bound
+
+new_upper_bound <- log(S0) + upper_bound
+new_upper_bound
+```
+Therefore the future $S_t$ in 10 days from 03/27/2020 should be between $e^{5.536785}$ and $e^{5.798775}$ which will be:
+```{r}
+exp(new_lower_bound)
+```
+and 
+
+```{r}
+exp(new_upper_bound)
+```
+Therefore the **95% confidence interval** is **[262.1874, 329.8953]**
+
+<font size ="5"><div align="left">**Conclusion**</div></font>
+
+In this analysis, we predicted the price should be between [262.1874, 340.7162]. The real price when we checked was 247.740005. It is clear this price is out of the interval by $262.1874 - 247.740005 = 14.4474$. There was only 5% chance that this could happen. This may be because the stock market has become more volatile due to covid19 or other random events which make predictions even harder.
+ 
