@@ -1,7 +1,7 @@
 ## Data-Science
 
 This data science has several machine learning projects with the most important ones can be classified as follows:
-- 1st is about predicting whether if a customer of bank will exit it or not based Credit Score, Number of Products used and several other variables. This project use RandomForest regression to predict on a test dataset. 
+- 1st is about predicting whether if a customer of bank will exit it or not based Credit Score, Number of Products used and several other variables. This project use RandomForest regression to predict on a test dataset.Therefore it is in the Random Forest folder
 - 2nd uses a Random Forest to detect anomalies or fradulent transactions in a credit card dataset.
 - 3rd one is a Google stock price predictive model. The model will try to predict the highest price for the next 20 days of the stock after training.
 - 4th use Monte Carlo simulations to calculate the value at risk(vaR) if you buy 1 Apple share for a 7 trading days period
